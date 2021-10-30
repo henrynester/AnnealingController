@@ -13,7 +13,7 @@ A level shifter on-board based on the TXS0108E changes the SPI bus over from 3.3
 
 ## Firmware
 
-blah
+blah bkah
 
 ## Software
 
