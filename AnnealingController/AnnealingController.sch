@@ -9672,7 +9672,7 @@ CONN_04
 <sheet>
 <plain>
 <text x="210.82" y="88.9" size="2.54" layer="97">Thermocouple Amplifier
-Connector (CHECK ALIGNS WITH OTHER)</text>
+Connector</text>
 <text x="217.17" y="20.32" size="2.54" layer="94">Henry Nester</text>
 <text x="162.56" y="5.08" size="1.778" layer="94">This board is an Arduino shield to control.
 The annealing system. It has FETs to
@@ -9680,6 +9680,14 @@ switch the heaters, fuses with blown-fuse
 sensing, LED drivers, and an I2C LCD plug.
 
 github.com/henrynester/AnneallingController</text>
+<text x="210.82" y="81.28" size="2.54" layer="97">Front-panel LED Connector</text>
+<text x="210.82" y="134.62" size="2.54" layer="97">LCD Connector</text>
+<text x="203.2" y="35.56" size="2.54" layer="97">Screw Terminals</text>
+<text x="10.16" y="48.26" size="2.54" layer="97">Front-panel LED
+Drivers</text>
+<text x="45.72" y="58.42" size="2.54" layer="97">Heater MOSFET Switches</text>
+<text x="17.78" y="127" size="2.54" layer="97">Fuse Sensing</text>
+<text x="142.24" y="68.58" size="2.54" layer="97">Arduino Shield Headers</text>
 </plain>
 <instances>
 <instance part="FRAME1" gate="G$1" x="0" y="0" smashed="yes">

@@ -12884,7 +12884,7 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <text x="53.34" y="99.06" size="2.54" layer="97">Thermocouple B Amplifier</text>
 <text x="63.5" y="27.94" size="2.54" layer="97">Level Shifting</text>
 <text x="205.74" y="93.98" size="2.54" layer="97">Main Board Connector</text>
-<text x="208.28" y="137.16" size="2.54" layer="97">Supply Filtering</text>
+<text x="205.74" y="137.16" size="2.54" layer="97">Supply Filtering</text>
 <text x="217.17" y="20.32" size="2.54" layer="94">Henry Nester</text>
 <text x="162.56" y="5.08" size="1.778" layer="94">This board connects to the main controller
 board of the annealing system. It has two 
@@ -12893,6 +12893,7 @@ based on MAX31855T chips, and a level shifter
 to 5V for the SPI interface.
 
 github.com/henrynester/AnneallingController</text>
+<text x="160.02" y="142.24" size="2.54" layer="97">Grounded Isothermal Plane</text>
 </plain>
 <instances>
 <instance part="IC1" gate="G$1" x="104.14" y="157.48" smashed="yes">
