@@ -15,8 +15,8 @@
 #define HEAT_A_PIN 8
 #define HEAT_B_PIN 7
 
-#define ESTOP_PIN 5         //LOW when emergency stop button pressed
-#define LED_PIN 6           //HIGH to light debug LED
+#define COMM_PIN 6
+#define ERR_PIN 5
 #define SUPPLY_SENSE_PIN A0 //voltage divider w/ Zener protection to read power supply
 
 //global variables

@@ -12845,7 +12845,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <parts>
 <part name="IC1" library="SamacSys_Parts" deviceset="MAX31855TASA+" device=""/>
 <part name="J1" library="SamacSys_Parts" deviceset="PCC-SMP-T" device=""/>
-<part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C1" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -12856,7 +12855,6 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="GND4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="IC2" library="SamacSys_Parts" deviceset="MAX31855TASA+" device=""/>
 <part name="J2" library="SamacSys_Parts" deviceset="PCC-SMP-T" device=""/>
-<part name="GND5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="C4" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
 <part name="GND6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -12875,11 +12873,9 @@ Source: http://www.murata.com .. GRM43DR72E224KW01.pdf</description>
 <part name="GND10" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="+3V5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0204/5" package3d_urn="urn:adsk.eagle:package:23488/1" value="10k"/>
-<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0204/5" package3d_urn="urn:adsk.eagle:package:23488/1" value="10k"/>
-<part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0204/5" package3d_urn="urn:adsk.eagle:package:23488/1" value="10k"/>
-<part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0204/5" package3d_urn="urn:adsk.eagle:package:23488/1" value="10k"/>
 <part name="+3V6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+3V3" device=""/>
 <part name="JP1" library="adafruit" deviceset="PINHD-1X8" device="BIG"/>
+<part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -12906,9 +12902,6 @@ github.com/henrynester/AnneallingController</text>
 <instance part="J1" gate="G$1" x="35.56" y="154.94" smashed="yes">
 <attribute name="NAME" x="34.29" y="162.56" size="1.778" layer="95" align="center-left"/>
 <attribute name="VALUE" x="34.29" y="160.02" size="1.778" layer="96" align="center-left"/>
-</instance>
-<instance part="GND1" gate="1" x="58.42" y="147.32" smashed="yes">
-<attribute name="VALUE" x="55.88" y="144.78" size="1.778" layer="96"/>
 </instance>
 <instance part="C1" gate="G$1" x="101.6" y="144.78" smashed="yes">
 <attribute name="NAME" x="102.616" y="145.415" size="1.778" layer="95"/>
@@ -12945,9 +12938,6 @@ github.com/henrynester/AnneallingController</text>
 <attribute name="NAME" x="34.29" y="121.92" size="1.778" layer="95" align="center-left"/>
 <attribute name="VALUE" x="34.29" y="119.38" size="1.778" layer="96" align="center-left"/>
 </instance>
-<instance part="GND5" gate="1" x="58.42" y="106.68" smashed="yes">
-<attribute name="VALUE" x="55.88" y="104.14" size="1.778" layer="96"/>
-</instance>
 <instance part="C4" gate="G$1" x="101.6" y="104.14" smashed="yes">
 <attribute name="NAME" x="102.616" y="104.775" size="1.778" layer="95"/>
 <attribute name="VALUE" x="102.616" y="99.949" size="1.778" layer="96"/>
@@ -12975,22 +12965,22 @@ github.com/henrynester/AnneallingController</text>
 <attribute name="NAME" x="62.23" y="66.04" size="1.778" layer="95" align="center-left"/>
 <attribute name="VALUE" x="62.23" y="63.5" size="1.778" layer="96" align="center-left"/>
 </instance>
-<instance part="C6" gate="G$1" x="25.4" y="50.8" smashed="yes">
-<attribute name="NAME" x="26.416" y="51.435" size="1.778" layer="95"/>
-<attribute name="VALUE" x="26.416" y="46.609" size="1.778" layer="96"/>
+<instance part="C6" gate="G$1" x="33.02" y="50.8" smashed="yes">
+<attribute name="NAME" x="34.036" y="51.435" size="1.778" layer="95"/>
+<attribute name="VALUE" x="34.036" y="46.609" size="1.778" layer="96"/>
 </instance>
 <instance part="C7" gate="G$1" x="106.68" y="50.8" smashed="yes">
 <attribute name="NAME" x="107.696" y="51.435" size="1.778" layer="95"/>
 <attribute name="VALUE" x="107.696" y="46.609" size="1.778" layer="96"/>
 </instance>
-<instance part="GND8" gate="1" x="25.4" y="43.18" smashed="yes">
-<attribute name="VALUE" x="22.86" y="40.64" size="1.778" layer="96"/>
+<instance part="GND8" gate="1" x="33.02" y="43.18" smashed="yes">
+<attribute name="VALUE" x="30.48" y="40.64" size="1.778" layer="96"/>
 </instance>
 <instance part="GND9" gate="1" x="106.68" y="43.18" smashed="yes">
 <attribute name="VALUE" x="104.14" y="40.64" size="1.778" layer="96"/>
 </instance>
-<instance part="+3V4" gate="G$1" x="25.4" y="60.96" smashed="yes">
-<attribute name="VALUE" x="27.94" y="63.5" size="1.778" layer="96" rot="R180"/>
+<instance part="+3V4" gate="G$1" x="33.02" y="60.96" smashed="yes">
+<attribute name="VALUE" x="35.56" y="63.5" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="P+1" gate="1" x="106.68" y="60.96" smashed="yes">
 <attribute name="VALUE" x="109.22" y="63.5" size="1.778" layer="96" rot="R180"/>
@@ -13001,28 +12991,19 @@ github.com/henrynester/AnneallingController</text>
 <instance part="+3V5" gate="G$1" x="55.88" y="40.64" smashed="yes">
 <attribute name="VALUE" x="58.42" y="43.18" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="R1" gate="G$1" x="43.18" y="66.04" smashed="yes" rot="R90">
-<attribute name="NAME" x="41.6814" y="62.23" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="41.402" y="67.31" size="1.778" layer="96" rot="R90"/>
+<instance part="R1" gate="G$1" x="55.88" y="66.04" smashed="yes" rot="R90">
+<attribute name="NAME" x="54.3814" y="62.23" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="59.182" y="62.23" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R2" gate="G$1" x="48.26" y="66.04" smashed="yes" rot="R90">
-<attribute name="NAME" x="46.7614" y="62.23" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="46.482" y="67.31" size="1.778" layer="96" rot="R90"/>
-</instance>
-<instance part="R3" gate="G$1" x="53.34" y="66.04" smashed="yes" rot="R90">
-<attribute name="NAME" x="51.8414" y="62.23" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="51.562" y="67.31" size="1.778" layer="96" rot="R90"/>
-</instance>
-<instance part="R4" gate="G$1" x="58.42" y="66.04" smashed="yes" rot="R90">
-<attribute name="NAME" x="56.9214" y="62.23" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="56.642" y="67.31" size="1.778" layer="96" rot="R90"/>
-</instance>
-<instance part="+3V6" gate="G$1" x="58.42" y="78.74" smashed="yes">
-<attribute name="VALUE" x="60.96" y="81.28" size="1.778" layer="96" rot="R180"/>
+<instance part="+3V6" gate="G$1" x="55.88" y="73.66" smashed="yes">
+<attribute name="VALUE" x="58.42" y="76.2" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="JP1" gate="G$1" x="233.68" y="111.76" smashed="yes">
 <attribute name="NAME" x="227.33" y="122.555" size="1.778" layer="95"/>
 <attribute name="VALUE" x="227.33" y="96.52" size="1.778" layer="96"/>
+</instance>
+<instance part="GND1" gate="1" x="187.96" y="149.86" smashed="yes">
+<attribute name="VALUE" x="185.42" y="147.32" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -13114,26 +13095,6 @@ github.com/henrynester/AnneallingController</text>
 <wire x1="231.14" y1="109.22" x2="220.98" y2="109.22" width="0.1524" layer="91"/>
 <label x="220.98" y="109.22" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
-<segment>
-<pinref part="J1" gate="G$1" pin="1"/>
-<wire x1="55.88" y1="154.94" x2="58.42" y2="154.94" width="0.1524" layer="91"/>
-<pinref part="J1" gate="G$1" pin="4"/>
-<wire x1="55.88" y1="152.4" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="154.94" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
-<pinref part="GND1" gate="1" pin="GND"/>
-<wire x1="58.42" y1="149.86" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
-<junction x="58.42" y="152.4"/>
-</segment>
-<segment>
-<pinref part="J2" gate="G$1" pin="1"/>
-<wire x1="55.88" y1="114.3" x2="58.42" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="J2" gate="G$1" pin="4"/>
-<wire x1="55.88" y1="111.76" x2="58.42" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="114.3" x2="58.42" y2="111.76" width="0.1524" layer="91"/>
-<pinref part="GND5" gate="1" pin="GND"/>
-<wire x1="58.42" y1="109.22" x2="58.42" y2="111.76" width="0.1524" layer="91"/>
-<junction x="58.42" y="111.76"/>
-</segment>
 </net>
 <net name="+3V3" class="0">
 <segment>
@@ -13161,10 +13122,10 @@ github.com/henrynester/AnneallingController</text>
 <segment>
 <pinref part="IC3" gate="G$1" pin="VCCA"/>
 <pinref part="C6" gate="G$1" pin="1"/>
-<wire x1="60.96" y1="55.88" x2="25.4" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="55.88" x2="25.4" y2="53.34" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="55.88" x2="25.4" y2="58.42" width="0.1524" layer="91"/>
-<junction x="25.4" y="55.88"/>
+<wire x1="60.96" y1="55.88" x2="33.02" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="55.88" x2="33.02" y2="53.34" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="55.88" x2="33.02" y2="58.42" width="0.1524" layer="91"/>
+<junction x="33.02" y="55.88"/>
 <pinref part="+3V4" gate="G$1" pin="+3V3"/>
 </segment>
 <segment>
@@ -13175,21 +13136,7 @@ github.com/henrynester/AnneallingController</text>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="43.18" y1="71.12" x2="43.18" y2="73.66" width="0.1524" layer="91"/>
-<pinref part="R4" gate="G$1" pin="2"/>
-<wire x1="43.18" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="73.66" x2="53.34" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="73.66" x2="58.42" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="73.66" x2="58.42" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="53.34" y1="71.12" x2="53.34" y2="73.66" width="0.1524" layer="91"/>
-<junction x="53.34" y="73.66"/>
-<pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="48.26" y1="71.12" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
-<junction x="48.26" y="73.66"/>
 <pinref part="+3V6" gate="G$1" pin="+3V3"/>
-<wire x1="58.42" y1="76.2" x2="58.42" y2="73.66" width="0.1524" layer="91"/>
-<junction x="58.42" y="73.66"/>
 </segment>
 <segment>
 <pinref part="JP1" gate="G$1" pin="8"/>
@@ -13210,12 +13157,12 @@ github.com/henrynester/AnneallingController</text>
 </segment>
 <segment>
 <pinref part="IC3" gate="G$1" pin="A1"/>
-<wire x1="60.96" y1="58.42" x2="43.18" y2="58.42" width="0.1524" layer="91"/>
-<label x="40.64" y="58.42" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="60.96" y1="58.42" x2="55.88" y2="58.42" width="0.1524" layer="91"/>
+<label x="50.8" y="58.42" size="1.27" layer="95" rot="R180" xref="yes"/>
 <pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="43.18" y1="58.42" x2="40.64" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="43.18" y1="60.96" x2="43.18" y2="58.42" width="0.1524" layer="91"/>
-<junction x="43.18" y="58.42"/>
+<wire x1="55.88" y1="58.42" x2="50.8" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="60.96" x2="55.88" y2="58.42" width="0.1524" layer="91"/>
+<junction x="55.88" y="58.42"/>
 </segment>
 </net>
 <net name="TCA_CS_3V" class="0">
@@ -13226,12 +13173,8 @@ github.com/henrynester/AnneallingController</text>
 </segment>
 <segment>
 <pinref part="IC3" gate="G$1" pin="A3"/>
-<wire x1="60.96" y1="50.8" x2="53.34" y2="50.8" width="0.1524" layer="91"/>
-<label x="43.18" y="50.8" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="53.34" y1="50.8" x2="43.18" y2="50.8" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="60.96" x2="53.34" y2="50.8" width="0.1524" layer="91"/>
-<junction x="53.34" y="50.8"/>
+<label x="50.8" y="50.8" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="60.96" y1="50.8" x2="50.8" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCK_3V" class="0">
@@ -13247,12 +13190,8 @@ github.com/henrynester/AnneallingController</text>
 </segment>
 <segment>
 <pinref part="IC3" gate="G$1" pin="A4"/>
-<wire x1="60.96" y1="48.26" x2="58.42" y2="48.26" width="0.1524" layer="91"/>
-<label x="43.18" y="48.26" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="58.42" y1="48.26" x2="43.18" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="58.42" y1="60.96" x2="58.42" y2="48.26" width="0.1524" layer="91"/>
-<junction x="58.42" y="48.26"/>
+<label x="50.8" y="48.26" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="60.96" y1="48.26" x2="50.8" y2="48.26" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -13279,12 +13218,8 @@ github.com/henrynester/AnneallingController</text>
 </segment>
 <segment>
 <pinref part="IC3" gate="G$1" pin="A2"/>
-<wire x1="60.96" y1="53.34" x2="48.26" y2="53.34" width="0.1524" layer="91"/>
-<label x="43.18" y="53.34" size="1.27" layer="95" rot="R180" xref="yes"/>
-<pinref part="R2" gate="G$1" pin="1"/>
-<wire x1="48.26" y1="53.34" x2="43.18" y2="53.34" width="0.1524" layer="91"/>
-<wire x1="48.26" y1="60.96" x2="48.26" y2="53.34" width="0.1524" layer="91"/>
-<junction x="48.26" y="53.34"/>
+<wire x1="60.96" y1="53.34" x2="50.8" y2="53.34" width="0.1524" layer="91"/>
+<label x="50.8" y="53.34" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="TCA_CS_5V" class="0">
@@ -13368,6 +13303,30 @@ github.com/henrynester/AnneallingController</text>
 <pinref part="C5" gate="G$1" pin="1"/>
 <wire x1="86.36" y1="116.84" x2="81.28" y2="116.84" width="0.1524" layer="91"/>
 <junction x="86.36" y="116.84"/>
+</segment>
+</net>
+<net name="ISOTHERM" class="0">
+<segment>
+<pinref part="J2" gate="G$1" pin="1"/>
+<wire x1="55.88" y1="114.3" x2="58.42" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="J2" gate="G$1" pin="4"/>
+<wire x1="55.88" y1="111.76" x2="58.42" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="114.3" x2="58.42" y2="111.76" width="0.1524" layer="91"/>
+<label x="58.42" y="114.3" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="J1" gate="G$1" pin="1"/>
+<wire x1="55.88" y1="154.94" x2="58.42" y2="154.94" width="0.1524" layer="91"/>
+<pinref part="J1" gate="G$1" pin="4"/>
+<wire x1="55.88" y1="152.4" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
+<wire x1="58.42" y1="154.94" x2="58.42" y2="152.4" width="0.1524" layer="91"/>
+<label x="58.42" y="154.94" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<wire x1="177.8" y1="154.94" x2="187.96" y2="154.94" width="0.1524" layer="91"/>
+<wire x1="187.96" y1="154.94" x2="187.96" y2="152.4" width="0.1524" layer="91"/>
+<pinref part="GND1" gate="1" pin="GND"/>
+<label x="177.8" y="154.94" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
