@@ -1,6 +1,8 @@
 #include <thermocouple.h>
 #include <SPI.h>
 
+#define DEBUG
+
 void Thermocouple::begin()
 {
     //chip deselect

@@ -40,18 +40,13 @@ void setup()
   h_A.begin();
   h_B.begin();
 
-  pinMode(ESTOP_PIN, INPUT_PULLUP);
-  pinMode(LED_PIN, OUTPUT);
-
   delay(1000); //wait for thermocouple to stabilize
 }
 
 uint32_t last_tc_update;
 uint8_t goal;
-void handle_estop();
 void loop()
 {
-  handle_estop();
   if (Serial.available())
   {
     goal = Serial.parseInt();
@@ -60,25 +55,13 @@ void loop()
   {
     last_tc_update = millis();
     tc_A.update();
-    delay(1);
+    delay(200);
     tc_B.update();
-    //tc_A.print();
+    delay(200);
+    tc_A.print();
     //tc_B.print();
   }
-  if (!estop)
-  {
-    h_A.set_duty(constrain((goal - tc_A.get_corrected_external_temp()) * 50.0, 0, 100));
-    h_B.set_duty(h_A.get_duty());
-  }
+  h_A.set_duty(constrain((goal - tc_A.get_corrected_external_temp()) * 50.0, 0, 100));
+  h_B.set_duty(h_A.get_duty());
   Heater::update_all();
-}
-
-void handle_estop()
-{
-  if (!digitalRead(ESTOP_PIN))
-  {
-    estop = 1;
-    h_A.off();
-    h_B.off();
-  }
 }
