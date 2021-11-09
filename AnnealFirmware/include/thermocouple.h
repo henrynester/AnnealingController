@@ -36,7 +36,6 @@ private:
     uint8_t errcode;
     static Thermocouple *instances[2];
     static uint8_t instance_count, instance_to_update;
-    static uint32_t last_update_period_start;
 
 public:
     Thermocouple(uint8_t cs) : cs_pin(cs)
@@ -53,5 +52,5 @@ public:
     uint8_t get_errcode();
     // void print();
 
-    static void update_all(uint32_t ms);
+    static bool update_all(uint16_t ms); //returns true if one was updated
 };

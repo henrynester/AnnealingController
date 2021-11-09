@@ -1,9 +1,6 @@
 #include <thermocouple.h>
 #include <SPI.h>
 
-#define DEBUG
-
-uint32_t Thermocouple::last_update_period_start = 0;
 uint8_t Thermocouple::instance_count = 0, Thermocouple::instance_to_update = 0;
 Thermocouple *Thermocouple::instances[2] = {nullptr, nullptr};
 
@@ -187,7 +184,7 @@ float Thermocouple::get_internal_temp()
 
 uint8_t Thermocouple::get_errcode()
 {
-    return errcode;
+    return 0; //errcode;
 }
 
 // void Thermocouple::print()
@@ -202,22 +199,25 @@ uint8_t Thermocouple::get_errcode()
 //     Serial.println(errcode, HEX);
 // }
 
-void Thermocouple::update_all(uint32_t ms)
+bool Thermocouple::update_all(uint16_t ms)
 {
     //top of the period to ya
-    if ((ms - last_update_period_start) > TC_UPDATE_PERIOD)
+    if (ms < TC_UPDATE_GAP && instance_to_update == instance_count)
     {
-        //start the update cycle from the first thermocouple
         instance_to_update = 0;
-        last_update_period_start = ms;
     }
     //space updates apart by TC_UPDATE_GAP
-    if ((ms - last_update_period_start) > (TC_UPDATE_GAP * instance_to_update))
+    if (ms > (TC_UPDATE_GAP * instance_to_update))
     {
         if (instance_to_update < instance_count)
         { //still a valid instance number
             //update that thermocouple
             instances[instance_to_update++]->update();
         }
+        else if (instance_to_update == instance_count)
+        { //updated all TCs
+            return true;
+        }
     }
+    return false;
 }

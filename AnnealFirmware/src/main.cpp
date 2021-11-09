@@ -1,12 +1,16 @@
 //libraries
 #include <Arduino.h>
+#include <EEPROM.h> //for storing PID params
 #include "thermocouple.h"
 #include "heater.h"
 #include "leds.h"
 #include "AutoPID.h"
+#include "comms.h"
 
 //settings
-#define TC_UPDATE_PERIOD 1000
+extern const uint16_t LOOP_PERIOD;
+const uint16_t LOOP_PERIOD = 1000;
+#define COMMS_TIMEOUT 10000
 
 //pin config
 #define TC_A_CS 10 //thermocouple A chip select (active LOW)
@@ -29,13 +33,18 @@ Thermocouple tc_B(TC_B_CS);
 Heater ht_A(HT_A_SW, HT_A_SNS);
 Heater ht_B(HT_B_SW, HT_B_SNS);
 
+float goal_temp = -50.0;
+float Kp, Ki, Kd;
+float temp_A, temp_B, duty_A, duty_B;
+AutoPID pid_A(&temp_A, &goal_temp, &duty_A, 0, 100, 0, 0, 0);
+AutoPID pid_B(&temp_B, &goal_temp, &duty_B, 0, 100, 0, 0, 0);
+
 StatusLights leds(COMM, ERR);
 
 uint8_t heat_A_duty;
-uint8_t estop;
+uint8_t estop = 1;
 
-float goal_temp = -50.0;
-float Kp = 1.0, Ki = 0.000562, Kd = -125892012.3430;
+bool errchk();
 
 void setup()
 {
@@ -48,50 +57,107 @@ void setup()
   ht_A.begin();
   ht_B.begin();
 
+  //load PID gains from EEPROM
+  EEPROM.get(0, Kp);
+  EEPROM.get(sizeof(float), Ki);
+  EEPROM.get(sizeof(float) * 2, Kd);
+  if (Kp == NAN || Ki == NAN || Kd == NAN)
+  {
+    Kp = Ki = Kd = 0.0;
+  }
+  pid_A.setGains(Kp, Ki, Kd);
+  pid_B.setGains(Kp, Ki, Kd);
+
   //run this last
   leds.begin(); //startup blink gives ~1000ms time for TC amps to stabilize
 }
 
 uint32_t ms;
-uint32_t last_tx;
-uint32_t last_rx;
+uint16_t t;
+uint32_t last_period_start;
+uint32_t last_rx = 0;
+uint8_t comms_ok = 0;
+uint8_t rx_flag;
+
+//todo: global 1Hz period variable
 void loop()
 {
+  //avoid repeated calls; we have to turn of interrupts in there
   ms = millis();
-  Thermocouple::update_all(ms);
-  Heater::update_all(ms);
-  leds.update(ms);
-  if (ms - last_tx > 1000)
+  //t = how far we are into current period, in milliseconds
+  t = ms - last_period_start;
+  if (t >= LOOP_PERIOD)
   {
-    transmit_status;
-    last_tx = ms;
+    serial_tx(); //transmit status 1Hz
+    error_tx();
+    last_period_start = ms; //restart the period
   }
-  if (Serial.available())
-  {
-    leds.err_blink(ERRBLINK_MODE_OFF);
-    last_rx = ms;
-    leds.rx_msg_blink();
-    while (Serial.available())
+  if (Thermocouple::update_all(t))
+  { //only re-run PID loops if there is a new temp. reading
+    if (!estop)
     {
-      Serial.read();
+      pid_A.run();
+      pid_B.run();
+    }
+  }
+  if (estop)
+  {
+    Heater::shutdown_all();
+  }
+  else
+  {
+    ht_A.set_duty(duty_A);
+    ht_B.set_duty(duty_B);
+  }
+
+  Heater::update_all(t);
+
+  leds.update(t);
+
+  serial_rx();
+
+  if (rx_flag) //msg received
+  {
+    rx_flag = 0;
+
+    if (parse_rx())
+    { //msg was valid
+      comms_ok = 1;
+      last_rx = ms;        //restart the timeout
+      leds.rx_msg_blink(); //blink the COMM led
     }
   }
 
-  if (tc_A.get_errcode() || tc_B.get_errcode() || !ht_A.has_power() || !ht_B.has_power())
+  //check for comms timeout
+  if (comms_ok && (ms - last_rx) > COMMS_TIMEOUT)
   {
+    comms_ok = 0;
+    estop = 1; //stop heaters on comms lost
+  }
+
+  //blink LED fast for errors
+  if (errchk())
+  {
+    estop = 1;
     leds.err_blink(ERRBLINK_MODE_FAST);
   }
-  else if (ms - last_rx > 5000)
+  //blink LED slow if connection lost
+  else if (!comms_ok)
   {
     leds.err_blink(ERRBLINK_MODE_SLOW);
   }
+  else
+  {
+    leds.err_blink(ERRBLINK_MODE_OFF);
+  }
 }
 
-#define COMMA() Serial.print(",") //save typing
-void transmit_status()
+#define COMMA() Serial.print(',') //save typing
+void serial_tx()
 {
+  Serial.print("<DAT,");
   //sends status data as csv list
-  Serial.print(millis()); //uptime
+  Serial.print(millis() / 1000.0); //uptime
   COMMA();
   Serial.print(goal_temp); //setpoint temperature for both heater/thermocouple pairs
   COMMA();
@@ -121,18 +187,43 @@ void transmit_status()
   COMMA();
 
   //current PID gains
-  Serial.print(Kp);
+  Serial.print(Kp, 5);
   COMMA();
-  Serial.print(Ki);
+  Serial.print(Ki, 5);
   COMMA();
-  Serial.print(Kd);
-  COMMA();
-  Serial.println(); //newline at end of packet
+  Serial.print(Kd, 5);
+  Serial.println('>'); //newline at end of packet
 }
 
-//serial commands:
-//reboot
-//try new PID gains
-//write PID gains to eeprom
-//set temperature
-//emergency stop
+bool errchk()
+{
+  if (tc_A.get_errcode() || tc_B.get_errcode() || !ht_A.has_power() || !ht_B.has_power())
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+void error_tx()
+{
+  if (errchk())
+  {
+    Serial.print("<ERR,");
+    Serial.print(tc_A.get_errcode(), HEX);
+    COMMA();
+    Serial.print(tc_B.get_errcode(), HEX);
+    COMMA();
+    if (!ht_A.has_power())
+    {
+      Serial.print('A');
+    }
+    if (!ht_B.has_power())
+    {
+      Serial.print('B');
+    }
+    Serial.println(">");
+  }
+}

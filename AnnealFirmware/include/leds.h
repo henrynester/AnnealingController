@@ -10,8 +10,8 @@ class StatusLights
 private:
     uint8_t comm, err;
     uint8_t in_commblink;
-    uint32_t commblink_start;
     uint8_t errblink_mode;
+    uint32_t commblink_start;
 
 public:
     StatusLights(uint8_t comm, uint8_t err) : comm(comm), err(err){};
