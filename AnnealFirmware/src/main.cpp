@@ -176,10 +176,6 @@ void serial_tx()
   COMMA();
   Serial.print(tc_B.get_internal_temp());
   COMMA();
-  Serial.print(tc_A.get_errcode());
-  COMMA();
-  Serial.print(tc_B.get_errcode());
-  COMMA();
 
   //heater status and output levels
   Serial.print(ht_A.get_duty());
