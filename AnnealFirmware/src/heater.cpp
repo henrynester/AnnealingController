@@ -4,21 +4,42 @@ uint32_t Heater::last_period_start = 0;
 uint8_t Heater::instance_count = 0;
 Heater *Heater::instances[2] = {nullptr, nullptr};
 
-Heater::Heater(uint8_t switch_pin)
-{
-    this->switch_pin = switch_pin;
-    instances[instance_count] = this;
-    instance_count++;
-}
+// Heater::Heater(uint8_t switch_pin, uint8_t sense_pin)
+// {
+
+//     //initialize locals
+//     this->switch_pin = switch_pin;
+//     this->sense_pin = sense_pin;
+// }
 
 void Heater::begin()
 {
-    //output, off for pin
+    //switch pin is an output. heater off to start.
     pinMode(switch_pin, OUTPUT);
     digitalWrite(switch_pin, LOW);
 }
 
-void Heater::off()
+void Heater::update(uint32_t ms)
+{
+    //heater on from period start->period start+period length*duty cycle
+    uint8_t state = 0;
+    if (duty == 0)
+    {
+        state = 0;
+    }
+    else if (duty == 100)
+    {
+        state = 1;
+    }
+    else
+    {
+        state = (ms - last_period_start < on_time_ms) ? 1 : 0;
+    }
+    digitalWrite(switch_pin, state);
+    powered = digitalRead(sense_pin);
+}
+
+void Heater::shutdown()
 {
     set_duty(0);
     digitalWrite(switch_pin, LOW);
@@ -35,28 +56,27 @@ uint8_t Heater::get_duty()
     return duty;
 }
 
-void Heater::update_all()
+bool Heater::has_power()
+{
+    return powered;
+}
+
+void Heater::update_all(uint32_t ms)
 {
     for (uint8_t i = 0; i < instance_count; i++)
     {
-        //heater on from period start->period start+period length*duty cycle
-        uint8_t state = 0;
-        if (instances[i]->duty == 0)
-        {
-            state = 0;
-        }
-        else if (instances[i]->duty == 100)
-        {
-            state = 1;
-        }
-        else
-        {
-            state = (millis() - last_period_start < instances[i]->on_time_ms) ? 1 : 0;
-        }
-        digitalWrite(instances[i]->switch_pin, state);
+        instances[i]->update(ms);
     }
-    if (millis() - last_period_start > HEATER_PERIOD)
+    if (ms - last_period_start > HEATER_PERIOD)
     {
-        last_period_start = millis();
+        last_period_start = ms;
+    }
+}
+
+void Heater::shutdown_all()
+{
+    for (uint8_t i = 0; i < instance_count; i++)
+    {
+        instances[i]->shutdown();
     }
 }

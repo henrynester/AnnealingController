@@ -6,9 +6,6 @@
 #define SPI_BITRATE 250000
 #define SPI_SETTINGS SPISettings(SPI_BITRATE, MSBFIRST, SPI_MODE0)
 
-#define TC_A_CS 9
-#define TC_B_CS 10
-
 //Class to interface with MAX31855T over SPI
 
 //error flags by bit index:
@@ -24,6 +21,11 @@
 #define TC_ERR_INTERNAL_TEMP_WILD 6 //out of range internal temp value
 #define TC_ERR_EXTERNAL_TEMP_WILD 7 //out of range external temp value
 
+#define TC_UPDATE_PERIOD 1000 //time interval between starting a thermocouple read cycle
+//time interval between reading thermocouples (conversions occur right after SPI communications stop)
+//so we don't want to disturb the bus talking to the next sensor until that time is up.
+//datasheet specifies 100ms for all conversions to complete
+#define TC_UPDATE_GAP 200
 class Thermocouple
 {
 private:
@@ -32,15 +34,24 @@ private:
     float external_temp_raw;
     float external_temp;
     uint8_t errcode;
-    void calculate_corrected_temp();
+    static Thermocouple *instances[2];
+    static uint8_t instance_count, instance_to_update;
+    static uint32_t last_update_period_start;
 
 public:
-    Thermocouple(uint8_t cs) : cs_pin(cs){};
+    Thermocouple(uint8_t cs) : cs_pin(cs)
+    {
+        //add a pointer to the newly-constructed Thermocouple object to the instance list
+        instances[instance_count] = this;
+        instance_count++;
+    };
     void begin();
     void update();
     float get_internal_temp();
-    float get_raw_external_temp();
-    float get_corrected_external_temp();
+    float get_raw_temp();
+    float get_temp();
     uint8_t get_errcode();
-    void print();
+    // void print();
+
+    static void update_all(uint32_t ms);
 };
