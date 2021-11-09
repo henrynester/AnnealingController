@@ -92,7 +92,7 @@ void Thermocouple::update()
     //fix linear approximation failure of amplifier
     calculate_corrected_temp(external_temp_raw, internal_temp);
 
-#ifdef DEBUG
+#ifdef TC_DEBUG
     Serial.print("DATA: ");
     Serial.println(rawData, BIN); //print 32-bit raw data in binary format
     Serial.print("Internal temp: ");
@@ -154,7 +154,7 @@ inline float calculate_corrected_temp(float external_temp_raw, float internal_te
                         6.048144E-20 * pow(std_ref_uV, 5.0) +
                         -7.293422E-25 * pow(std_ref_uV, 6.0);
     }
-#ifdef DEBUG
+#ifdef TC_DEBUG
     Serial.print("Sensor uV: ");
     Serial.println(actual_uV);
     Serial.print("ref uV: ");
@@ -202,7 +202,7 @@ uint8_t Thermocouple::get_errcode()
 bool Thermocouple::update_all(uint16_t ms)
 {
     //top of the period to ya
-    if (ms < TC_UPDATE_GAP && instance_to_update == instance_count)
+    if (ms < TC_UPDATE_GAP && instance_to_update == instance_count + 1)
     {
         instance_to_update = 0;
     }
@@ -211,13 +211,27 @@ bool Thermocouple::update_all(uint16_t ms)
     {
         if (instance_to_update < instance_count)
         { //still a valid instance number
-            //update that thermocouple
-            instances[instance_to_update++]->update();
+//update that thermocouple
+#ifdef TC_TEST_POT
+            instances[instance_to_update]->debug_set_external_temp(
+                map(analogRead((instance_to_update == 0) ? A0 : A1), //A0 is TCA, A1 is TCB
+                    0, 1023, -273, 25));
+#else
+            instances[instance_to_update]->update();
+#endif
+            instance_to_update++;
         }
-        else if (instance_to_update == instance_count)
+        if (instance_to_update == instance_count)
         { //updated all TCs
+            instance_to_update++;
             return true;
         }
     }
     return false;
+}
+
+void Thermocouple::debug_set_external_temp(float temp)
+{
+    external_temp = temp;
+    internal_temp = 25; //avoid the error from wild internal temp when we're just debugging
 }

@@ -1,9 +1,11 @@
 #include "comms.h"
 #include <avr/wdt.h> //for reset
 #include <EEPROM.h>  //for storing PID params
+#include "AutoPID.h"
 
 extern float goal_temp, Kp, Ki, Kd;
 extern uint8_t estop, rx_flag;
+extern AutoPID pid_A, pid_B;
 
 char rxbuf[RXBUF_LEN]; //stores received character string
 char cmd[4] = {0};
@@ -64,6 +66,8 @@ bool parse_rx()
         Serial.println(Ki);
         Serial.println(Kd);
 #endif
+        pid_A.setGains(Kp, Ki, Kd);
+        pid_B.setGains(Kp, Ki, Kd);
         return true;
     }
     else if (strcmp(cmd, "SAV") == 0)
@@ -111,7 +115,9 @@ void serial_rx()
                 rxbuf[ndx] = '\0'; // terminate char array
                 recvInProgress = false;
                 ndx = 0;
+#ifdef COMMS_DEBUG
                 Serial.println(rxbuf);
+#endif
                 rx_flag = 1;
             }
         }

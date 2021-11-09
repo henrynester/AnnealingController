@@ -10,7 +10,7 @@
 //settings
 extern const uint16_t LOOP_PERIOD;
 const uint16_t LOOP_PERIOD = 1000;
-#define COMMS_TIMEOUT 10000
+#define COMMS_TIMEOUT 60000
 
 //pin config
 #define TC_A_CS 10 //thermocouple A chip select (active LOW)
@@ -86,20 +86,18 @@ void loop()
   ms = millis();
   //t = how far we are into current period, in milliseconds
   t = ms - last_period_start;
-  if (t >= LOOP_PERIOD)
-  {
-    serial_tx(); //transmit status 1Hz
-    error_tx();
-    last_period_start = ms; //restart the period
-  }
+
   if (Thermocouple::update_all(t))
   { //only re-run PID loops if there is a new temp. reading
     if (!estop)
     {
+      temp_A = tc_A.get_temp();
+      temp_B = tc_B.get_temp();
       pid_A.run();
       pid_B.run();
     }
   }
+
   if (estop)
   {
     Heater::shutdown_all();
@@ -149,6 +147,13 @@ void loop()
   else
   {
     leds.err_blink(ERRBLINK_MODE_OFF);
+  }
+
+  if (t >= LOOP_PERIOD)
+  {
+    serial_tx(); //transmit status 1Hz
+    error_tx();
+    last_period_start = ms; //restart the period
   }
 }
 

@@ -1,7 +1,8 @@
 #pragma once
 #include <Arduino.h>
 
-//#define DEBUG
+//#define TC_DEBUG //print out raw bytes received from sensor, conversion maths
+#define TC_TEST_POT //use a potentiometer instead
 
 #define SPI_BITRATE 250000
 #define SPI_SETTINGS SPISettings(SPI_BITRATE, MSBFIRST, SPI_MODE0)
@@ -46,6 +47,7 @@ public:
     };
     void begin();
     void update();
+    void debug_set_external_temp(float temp); //used for debugging with potentiometers
     float get_internal_temp();
     float get_raw_temp();
     float get_temp();
