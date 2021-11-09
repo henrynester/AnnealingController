@@ -65,19 +65,19 @@ The firmware consists of C++ classes to read the thermocouples, run PID calculat
 
 ### Serial Port Command Syntax
 The system expects the following commands - everything else is ignored completely. In the event that no valid commands are received for 10s, the heaters are shut off (emergency stop).
-- `<<SET,-32.5>>` changes the temperature setpoint for both heaters
-- `<<OFF>>` causes an emergency stop (heaters off)
-- `<<PID,6.9,6.9,42.0>>` sets the P, I, and D gains for both control loops 
-- `<<SAV>>` burns the PID parameters to non-volatile memory - they will be the gains used after a power cycle. Send this infrequently to avoid wearing the EEPROM. Also, running the command blocks the Arduino ~50ms...
-- `<<RST>>` causes a software (watchdog timer) reset of the Arduino MCU
+- `<SET,-32.5>` changes the temperature setpoint for both heaters
+- `<OFF>` causes an emergency stop (heaters off)
+- `<PID,6.9,6.9,42.0>` sets the P, I, and D gains for both control loops 
+- `<SAV>` burns the PID parameters to non-volatile memory - they will be the gains used after a power cycle. Send this infrequently to avoid wearing the EEPROM. Also, running the command blocks the Arduino ~50ms...
+- `<RST>` causes a software (watchdog timer) reset of the Arduino MCU
 
 At 1Hz, the system transmits a status data packet:
 
-`<<DAT,uptime (s),setpoint (degC),A temp (degC),B temp (degC),A amplifier temp (degC), B amplifier temp (degC), heater A duty cycle (%), B duty (%), heater A fuse (1=OK), B fuse (1=OK), Kp, Ki, Kd>>`
+`<DAT,uptime (s),setpoint (degC),A temp (degC),B temp (degC),A amplifier temp (degC), B amplifier temp (degC), heater A duty cycle (%), B duty (%), heater A fuse (1=OK), B fuse (1=OK), Kp, Ki, Kd>`
 
 If there is an error, an error packet will be sent, also at 1Hz:
 
-`<<ERR, A amplifier errcode (hex), B errcode (hex), fuses blown (A|B)>>`
+`<ERR, A amplifier errcode (hex), B errcode (hex), fuses blown (A|B)>`
 
 ## LabView Software
 
