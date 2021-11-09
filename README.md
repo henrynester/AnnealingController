@@ -68,7 +68,7 @@ The system expects the following commands - everything else is ignored completel
 - `<<SET,-32.5>>` changes the temperature setpoint for both heaters
 - `<<OFF>>` causes an emergency stop (heaters off)
 - `<<PID,6.9,6.9,42.0>>` sets the P, I, and D gains for both control loops 
-- `<<WRT>>` burns the PID parameters to non-volatile memory - they will be the gains used after a power cycle
+- `<<SAV>>` burns the PID parameters to non-volatile memory - they will be the gains used after a power cycle. Send this infrequently to avoid wearing the EEPROM. Also, running the command blocks the Arduino ~50ms...
 - `<<RST>>` causes a software (watchdog timer) reset of the Arduino MCU
 
 At 1Hz, the system transmits a status data packet:
@@ -79,6 +79,6 @@ If there is an error, an error packet will be sent, also at 1Hz:
 
 `<<ERR, A amplifier errcode (hex), B errcode (hex), fuses blown (A|B)>>`
 
-## Software
+## LabView Software
 
-Ain't done yet.
+It ain't started yet.
