@@ -149,8 +149,8 @@
 <text x="40.64" y="8.89" size="1.778" layer="21" font="vector" rot="R90">THERMOCOUPLE AMP R1</text>
 <text x="5.08" y="10.16" size="1.778" layer="21" font="vector" rot="R90">HENRY NESTER
 NOV 21</text>
-<text x="16.51" y="36.83" size="1.778" layer="21" font="vector" rot="R180">+A-</text>
-<text x="25.4" y="35.56" size="1.778" layer="21" font="vector">+B-</text>
+<text x="10.16" y="35.56" size="2.54" layer="21" font="vector">+A-</text>
+<text x="24.13" y="35.56" size="2.54" layer="21" font="vector">+B-</text>
 <text x="22.098" y="4.318" size="1.27" layer="21" font="vector" rot="R90">GND</text>
 <text x="24.638" y="4.318" size="1.27" layer="21" font="vector" rot="R90">GND</text>
 <text x="27.178" y="4.318" size="1.27" layer="21" font="vector" rot="R90">5V</text>
@@ -159,8 +159,8 @@ NOV 21</text>
 <text x="17.018" y="4.318" size="1.27" layer="21" font="vector" rot="R90">BCS</text>
 <text x="14.478" y="4.318" size="1.27" layer="21" font="vector" rot="R90">ACS</text>
 <text x="11.938" y="4.318" size="1.27" layer="21" font="vector" rot="R90">SCK</text>
-<text x="38.1" y="8.89" size="1.27" layer="21" font="vector" rot="R90">TYPE-T, NO GND</text>
-<text x="36.576" y="9.144" size="1.27" layer="21" font="vector" rot="R90">5V SPI. USE:</text>
+<text x="38.1" y="8.89" size="1.27" layer="21" font="vector" rot="R90">FLOATING TC.</text>
+<text x="36.576" y="9.144" size="1.27" layer="21" font="vector" rot="R90">5V SPI. TYPE T,</text>
 </plain>
 <libraries>
 <library name="SamacSys_Parts">
@@ -212,14 +212,14 @@ NOV 21</text>
 <wire x1="18.027" y1="3.8" x2="18.027" y2="-19" width="0.1" layer="51"/>
 <wire x1="18.027" y1="-19" x2="-2.328" y2="-19" width="0.1" layer="51"/>
 <wire x1="-2.328" y1="-19" x2="-2.328" y2="3.8" width="0.1" layer="51"/>
-<wire x1="0.1" y1="2" x2="0.1" y2="2.8" width="0.1" layer="21"/>
-<wire x1="0.1" y1="2.8" x2="15.6" y2="2.8" width="0.1" layer="21"/>
-<wire x1="15.6" y1="2.8" x2="15.6" y2="2" width="0.1" layer="21"/>
-<wire x1="0.1" y1="-2" x2="0.1" y2="-12" width="0.1" layer="21"/>
-<wire x1="15.6" y1="-2" x2="15.6" y2="-12" width="0.1" layer="21"/>
-<wire x1="0.1" y1="-15" x2="0.1" y2="-18" width="0.1" layer="21"/>
-<wire x1="0.1" y1="-18" x2="15.6" y2="-18" width="0.1" layer="21"/>
-<wire x1="15.6" y1="-18" x2="15.6" y2="-15" width="0.1" layer="21"/>
+<wire x1="0.1" y1="2" x2="0.1" y2="2.8" width="0.254" layer="21"/>
+<wire x1="0.1" y1="2.8" x2="15.6" y2="2.8" width="0.254" layer="21"/>
+<wire x1="15.6" y1="2.8" x2="15.6" y2="2" width="0.254" layer="21"/>
+<wire x1="0.1" y1="-2" x2="0.1" y2="-12" width="0.254" layer="21"/>
+<wire x1="15.6" y1="-2" x2="15.6" y2="-12" width="0.254" layer="21"/>
+<wire x1="0.1" y1="-15" x2="0.1" y2="-18" width="0.254" layer="21"/>
+<wire x1="0.1" y1="-18" x2="15.6" y2="-18" width="0.254" layer="21"/>
+<wire x1="15.6" y1="-18" x2="15.6" y2="-15" width="0.254" layer="21"/>
 </package>
 <package name="SOP65P640X120-20N">
 <description>&lt;b&gt;PW (R-PDSO-G20)&lt;/b&gt;&lt;br&gt;
@@ -1459,60 +1459,52 @@ type 0207, grid 7.5 mm</description>
 <class number="0" name="default" width="0" drill="0">
 </class>
 </classes>
-<designrules name="default">
-<description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
-&lt;p&gt;
-Die Standard-Design-Rules sind so gewählt, dass sie für 
-die meisten Anwendungen passen. Sollte ihre Platine 
-besondere Anforderungen haben, treffen Sie die erforderlichen
-Einstellungen hier und speichern die Design Rules unter 
-einem neuen Namen ab.</description>
-<description language="en">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
-&lt;p&gt;
-The default Design Rules have been set to cover
-a wide range of applications. Your particular design
-may have different requirements, so please make the
-necessary adjustments and save your customized
-design rules under a new name.</description>
+<designrules name="jlcpcb-2layers">
+<description language="en">&lt;b&gt;JLCPCB design rules (2 layers)&lt;/b&gt;
+&lt;ul&gt;
+&lt;li&gt;Board thickness: 1.6mm&lt;/li&gt;
+&lt;li&gt;Copper weight: 1oz (35um)&lt;/li&gt;
+&lt;li&gt;Note: annular ring aren't minimal&lt;/li&gt;
+&lt;/ul&gt;</description>
 <param name="layerSetup" value="(1*16)"/>
 <param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
-<param name="mtIsolate" value="1.5mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
-<param name="mdWireWire" value="6mil"/>
-<param name="mdWirePad" value="6mil"/>
-<param name="mdWireVia" value="6mil"/>
-<param name="mdPadPad" value="6mil"/>
-<param name="mdPadVia" value="6mil"/>
-<param name="mdViaVia" value="6mil"/>
-<param name="mdSmdPad" value="6mil"/>
-<param name="mdSmdVia" value="6mil"/>
-<param name="mdSmdSmd" value="6mil"/>
+<param name="mtIsolate" value="1.6mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
+<param name="mdWireWire" value="5mil"/>
+<param name="mdWirePad" value="5mil"/>
+<param name="mdWireVia" value="5mil"/>
+<param name="mdPadPad" value="5mil"/>
+<param name="mdPadVia" value="5mil"/>
+<param name="mdViaVia" value="5mil"/>
+<param name="mdSmdPad" value="5mil"/>
+<param name="mdSmdVia" value="5mil"/>
+<param name="mdSmdSmd" value="5mil"/>
 <param name="mdViaViaSameLayer" value="6mil"/>
 <param name="mnLayersViaInSmd" value="2"/>
-<param name="mdCopperDimension" value="40mil"/>
+<param name="mdCopperDimension" value="0.2mm"/>
 <param name="mdDrill" value="6mil"/>
 <param name="mdSmdStop" value="0mil"/>
-<param name="msWidth" value="6mil"/>
-<param name="msDrill" value="0.35mm"/>
-<param name="msMicroVia" value="9.99mm"/>
+<param name="msWidth" value="5mil"/>
+<param name="msDrill" value="0.3mm"/>
+<param name="msMicroVia" value="0.3mm"/>
 <param name="msBlindViaRatio" value="0.5"/>
-<param name="rvPadTop" value="0.25"/>
-<param name="rvPadInner" value="0.25"/>
-<param name="rvPadBottom" value="0.25"/>
-<param name="rvViaOuter" value="0.25"/>
-<param name="rvViaInner" value="0.25"/>
-<param name="rvMicroViaOuter" value="0.25"/>
-<param name="rvMicroViaInner" value="0.25"/>
+<param name="rvPadTop" value="0.4"/>
+<param name="rvPadInner" value="0"/>
+<param name="rvPadBottom" value="0.4"/>
+<param name="rvViaOuter" value="0"/>
+<param name="rvViaInner" value="0"/>
+<param name="rvMicroViaOuter" value="0"/>
+<param name="rvMicroViaInner" value="0"/>
 <param name="rlMinPadTop" value="10mil"/>
-<param name="rlMaxPadTop" value="20mil"/>
+<param name="rlMaxPadTop" value="80mil"/>
 <param name="rlMinPadInner" value="10mil"/>
 <param name="rlMaxPadInner" value="20mil"/>
 <param name="rlMinPadBottom" value="10mil"/>
-<param name="rlMaxPadBottom" value="20mil"/>
-<param name="rlMinViaOuter" value="8mil"/>
+<param name="rlMaxPadBottom" value="80mil"/>
+<param name="rlMinViaOuter" value="3mil"/>
 <param name="rlMaxViaOuter" value="20mil"/>
 <param name="rlMinViaInner" value="8mil"/>
 <param name="rlMaxViaInner" value="20mil"/>
-<param name="rlMinMicroViaOuter" value="4mil"/>
+<param name="rlMinMicroViaOuter" value="3mil"/>
 <param name="rlMaxMicroViaOuter" value="20mil"/>
 <param name="rlMinMicroViaInner" value="4mil"/>
 <param name="rlMaxMicroViaInner" value="20mil"/>
@@ -1841,9 +1833,7 @@ design rules under a new name.</description>
 <contactref element="C6" pad="1"/>
 <contactref element="IC3" pad="10"/>
 <contactref element="R1" pad="2"/>
-<wire x1="14.975" y1="15.638" x2="14.975" y2="15.505" width="0.4572" layer="1"/>
 <wire x1="21.59" y1="13.97" x2="22.86" y2="15.24" width="0.4572" layer="1"/>
-<wire x1="9.775" y1="15.638" x2="9.775" y2="15.625" width="0.4572" layer="1"/>
 <wire x1="22.86" y1="15.24" x2="25.4" y2="12.7" width="1.016" layer="1"/>
 <wire x1="25.4" y1="12.7" x2="30.48" y2="12.7" width="1.016" layer="1"/>
 <contactref element="JP1" pad="8"/>
@@ -1894,8 +1884,6 @@ design rules under a new name.</description>
 <wire x1="13.675" y1="15.638" x2="13.675" y2="20.615" width="0.4572" layer="1"/>
 <wire x1="13.675" y1="20.615" x2="12.7" y2="21.59" width="0.4572" layer="1"/>
 <wire x1="12.7" y1="21.59" x2="7.62" y2="21.59" width="0.4572" layer="1"/>
-<wire x1="6.35" y1="26.67" x2="5.715" y2="26.035" width="0.4572" layer="1"/>
-<wire x1="5.715" y1="26.035" x2="5.715" y2="25.228" width="0.4572" layer="1"/>
 </signal>
 <signal name="SCK_3V">
 <contactref element="IC1" pad="5"/>
@@ -1918,7 +1906,6 @@ design rules under a new name.</description>
 <contactref element="C7" pad="1"/>
 <contactref element="IC3" pad="19"/>
 <wire x1="21.59" y1="11.43" x2="22.86" y2="10.16" width="0.4572" layer="1"/>
-<wire x1="14.975" y1="9.895" x2="14.975" y2="9.762" width="0.4572" layer="1"/>
 <contactref element="JP1" pad="7"/>
 <wire x1="22.86" y1="10.16" x2="26.67" y2="6.35" width="1.016" layer="1"/>
 <wire x1="26.67" y1="6.35" x2="26.67" y2="2.54" width="1.016" layer="1"/>
