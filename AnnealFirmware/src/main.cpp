@@ -6,25 +6,13 @@
 #include "leds.h"
 #include "AutoPID.h"
 #include "comms.h"
+#include "pins.h"
+#include <avr/wdt.h>
 
 //settings
 extern const uint16_t LOOP_PERIOD;
 const uint16_t LOOP_PERIOD = 1000;
 #define COMMS_TIMEOUT 60000
-
-//pin config
-#define TC_A_CS 10 //thermocouple A chip select (active LOW)
-#define TC_B_CS 9  //B
-#define TC_SCK 13  //thermocouple SPI clock
-#define TC_MISO 12 //thermocouple SPI data output
-
-#define HT_A_SW 5  //switches heater A MOSFET on when HIGH
-#define HT_A_SNS 8 //HIGH when heater A + terminal has +24V on it
-#define HT_B_SW 6  //B MOSFET
-#define HT_B_SNS 7 //B sense
-
-#define COMM 3 //communication (green) LED
-#define ERR 4  //error (red) LED
 
 //global variables
 Thermocouple tc_A(TC_A_CS);
@@ -50,6 +38,27 @@ void setup()
 {
   Serial.begin(250000); //start serial
   Serial.println("boot");
+
+  pinMode(MANUAL_SW, INPUT_PULLUP);
+  if (!digitalRead(MANUAL_SW))
+  { //switch set for manual mode
+    //set MOSFET gate pins to high-Z state
+    //so that signals from manual control box can override
+    pinMode(HT_A_SW, INPUT);
+    pinMode(HT_B_SW, INPUT);
+    //box is useless now. do LED blink pattern
+    while (true)
+    {
+      digitalWrite(ERR, HIGH);
+      delay(250);
+      digitalWrite(ERR, LOW);
+      delay(50);
+      digitalWrite(ERR, HIGH);
+      delay(50);
+      digitalWrite(ERR, LOW);
+      delay(5000);
+    }
+  }
 
   tc_A.begin();
   tc_B.begin();
@@ -151,8 +160,8 @@ void loop()
 
   if (t >= LOOP_PERIOD)
   {
-    serial_tx(); //transmit status 1Hz
-    error_tx();
+    //serial_tx(); //transmit status 1Hz
+    //error_tx();
     last_period_start = ms; //restart the period
   }
 }

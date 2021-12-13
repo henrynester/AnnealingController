@@ -1,10 +1,11 @@
 #pragma once
 #include <Arduino.h>
+#include "pins.h"
 
-//#define TC_DEBUG //print out raw bytes received from sensor, conversion maths
+#define TC_DEBUG //print out raw bytes received from sensor, conversion maths
 #define TC_TEST_POT //use a potentiometer instead
 
-#define SPI_BITRATE 250000
+#define SPI_BITRATE 125000
 #define SPI_SETTINGS SPISettings(SPI_BITRATE, MSBFIRST, SPI_MODE0)
 
 //Class to interface with MAX31855T over SPI

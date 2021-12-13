@@ -1,4 +1,5 @@
 #include "leds.h"
+#include "pins.h"
 
 void StatusLights::begin()
 {

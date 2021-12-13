@@ -10,10 +10,30 @@ void Thermocouple::begin()
     digitalWrite(cs_pin, HIGH);
     pinMode(cs_pin, OUTPUT);
     //initialize SPI object
-    SPI.begin();
+    //SPI.begin();
+    pinMode(TC_SCK, OUTPUT);
+    digitalWrite(TC_SCK, LOW);
+    pinMode(TC_MISO, INPUT_PULLUP);
 }
 
 float calculate_corrected_temp(float, float);
+
+uint8_t shiftIn()
+{
+    uint8_t value = 0x00;
+    uint8_t i;
+
+    for (i = 0; i < 8; i++)
+    {
+        digitalWrite(TC_SCK, HIGH);
+        delayMicroseconds(5);
+        value |= digitalRead(TC_MISO) << (7 - i);
+        delayMicroseconds(5);
+        digitalWrite(TC_SCK, LOW);
+        delayMicroseconds(10);
+    }
+    return value;
+}
 
 //MAX31855 datasheet: datasheets.maximintegrated.com/en/ds/MAX31855.pdf
 void Thermocouple::update()
@@ -30,17 +50,18 @@ void Thermocouple::update()
     uint32_t rawInternal = 0;
     int32_t rawTC = 0;
 
-    digitalWrite(cs_pin, LOW);          //select chip
-    SPI.beginTransaction(SPI_SETTINGS); //start SPI comms
+    digitalWrite(cs_pin, LOW); //select chip
+    delayMicroseconds(10);
+    //SPI.beginTransaction(SPI_SETTINGS); //start SPI comms
 
     //shift in 4 bytes to the uint32_t rawData
-    rawData = SPI.transfer(0);
+    rawData = shiftIn(); //SPI.transfer(0);
     rawData <<= 8;
-    rawData |= SPI.transfer(0);
+    rawData |= shiftIn(); //SPI.transfer(0);
     rawData <<= 8;
-    rawData |= SPI.transfer(0);
+    rawData |= shiftIn(); //SPI.transfer(0);
     rawData <<= 8;
-    rawData |= SPI.transfer(0);
+    rawData |= shiftIn(); //SPI.transfer(0);
 
     SPI.endTransaction();       //stop SPI comms
     digitalWrite(cs_pin, HIGH); //deselect chip
@@ -217,7 +238,16 @@ bool Thermocouple::update_all(uint16_t ms)
                 map(analogRead((instance_to_update == 0) ? A0 : A1), //A0 is TCA, A1 is TCB
                     0, 1023, -273, 25));
 #else
+            // if (instance_to_update == 1)
+            // {
+#ifdef TC_DEBUG
+            Serial.print("TC:");
+            Serial.println(instance_to_update);
+#endif
+            //if (instance_to_update == 1)
+            //{
             instances[instance_to_update]->update();
+            //}
 #endif
             instance_to_update++;
         }
