@@ -1,8 +1,7 @@
 //pin config
-#define TC_A_CS 10 //thermocouple A chip select (active LOW)
-#define TC_B_CS 9  //B
-#define TC_SCK 13  //thermocouple SPI clock
-#define TC_MISO 12 //thermocouple SPI data output
+#define ADC_SCK 13
+#define ADC_MISO_DRDY 12
+#define ADC_MOSI 11
 
 #define HT_A_SW 5  //switches heater A MOSFET on when HIGH
 #define HT_A_SNS 8 //HIGH when heater A + terminal has +24V on it
