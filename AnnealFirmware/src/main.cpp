@@ -141,7 +141,7 @@ void loop()
   ht_A.update(t);
   ht_B.update(t);
 
-  leds.update(t);
+  leds_update(t);
 
   serial_rx();
 
@@ -153,7 +153,7 @@ void loop()
     { //msg was valid
       comms_ok = 1;
       last_rx = ms;        //restart the timeout
-      leds.rx_msg_blink(); //blink the COMM led
+      leds_rx_msg_blink(); //blink the COMM led
     }
   }
 
@@ -177,16 +177,16 @@ void loop()
     if (error)
     {
       estop = 1;
-      leds.err_blink(ERRBLINK_MODE_FAST);
+      leds_set_errblink_mode(ERRBLINK_MODE_FAST);
     }
     //blink LED slow if connection lost
     else if (!comms_ok)
     {
-      leds.err_blink(ERRBLINK_MODE_SLOW);
+      leds_set_errblink_mode(ERRBLINK_MODE_SLOW);
     }
     else
     {
-      leds.err_blink(ERRBLINK_MODE_OFF);
+      leds_set_errblink_mode(ERRBLINK_MODE_OFF);
     }
     last_period_start = ms; //restart the period
   }
