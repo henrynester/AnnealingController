@@ -1,4 +1,4 @@
-//libraries
+// //libraries
 #include <Arduino.h>
 #include <EEPROM.h> //for storing PID params
 #include "thermocouple.h"
@@ -6,6 +6,7 @@
 #include "leds.h"
 #include "AutoPID.h"
 #include "comms.h"
+#include "manual.h"
 #include "pins.h"
 #include <avr/wdt.h>
 
@@ -15,53 +16,41 @@ const uint16_t LOOP_PERIOD = 1000;
 #define COMMS_TIMEOUT 60000
 
 //global variables
-Thermocouple tc_A(TC_A_CS);
-Thermocouple tc_B(TC_B_CS);
-
 Heater ht_A(HT_A_SW, HT_A_SNS);
 Heater ht_B(HT_B_SW, HT_B_SNS);
 
 float goal_temp = -50.0;
+float internal_temp; //ADC (cold-junction) temperature
 float Kp, Ki, Kd;
 float temp_A, temp_B, duty_A, duty_B;
 AutoPID pid_A(&temp_A, &goal_temp, &duty_A, 0, 100, 0, 0, 0);
 AutoPID pid_B(&temp_B, &goal_temp, &duty_B, 0, 100, 0, 0, 0);
 
-StatusLights leds(COMM, ERR);
-
 uint8_t heat_A_duty;
 uint8_t estop = 1;
+uint8_t error = 0;
 
 bool errchk();
 
+#define STATE_CONVERT_INTERNAL 1
+#define STATE_CONVERT_TC_A 2
+#define STATE_CONVERT_TC_B 3
+#define STATE_ADC_IDLE 4
+uint8_t state = STATE_ADC_IDLE;
+
+uint32_t ms;
+uint16_t t;
+uint32_t last_period_start;
+uint32_t last_rx = 0;
+uint8_t comms_ok = 0;
+uint8_t rx_flag;
+
 void setup()
 {
-  Serial.begin(250000); //start serial
+  Serial.begin(250000);
   Serial.println("boot");
 
-  pinMode(MANUAL_SW, INPUT_PULLUP);
-  if (!digitalRead(MANUAL_SW))
-  { //switch set for manual mode
-    //set MOSFET gate pins to high-Z state
-    //so that signals from manual control box can override
-    pinMode(HT_A_SW, INPUT);
-    pinMode(HT_B_SW, INPUT);
-    //box is useless now. do LED blink pattern
-    while (true)
-    {
-      digitalWrite(ERR, HIGH);
-      delay(250);
-      digitalWrite(ERR, LOW);
-      delay(50);
-      digitalWrite(ERR, HIGH);
-      delay(50);
-      digitalWrite(ERR, LOW);
-      delay(5000);
-    }
-  }
-
-  tc_A.begin();
-  tc_B.begin();
+  adc_init();
 
   ht_A.begin();
   ht_B.begin();
@@ -72,44 +61,76 @@ void setup()
   EEPROM.get(sizeof(float) * 2, Kd);
   if (Kp == NAN || Ki == NAN || Kd == NAN)
   {
+    //if the EEPROM data are corrupted anywhere, set all the gains to zero
+    //to prevent any operation
     Kp = Ki = Kd = 0.0;
   }
   pid_A.setGains(Kp, Ki, Kd);
   pid_B.setGains(Kp, Ki, Kd);
 
-  //run this last
-  leds.begin(); //startup blink gives ~1000ms time for TC amps to stabilize
-}
+  leds_begin(); //startup blink gives ~1000ms time for TC amps to stabilize
 
-uint32_t ms;
-uint16_t t;
-uint32_t last_period_start;
-uint32_t last_rx = 0;
-uint8_t comms_ok = 0;
-uint8_t rx_flag;
+  if (check_manual_sw())
+  { //switch set for MANUAL
+    manual_mode();
+  } //switch set for CPU => continue to main program
+}
 
 //todo: global 1Hz period variable
 void loop()
 {
-  //avoid repeated calls; we have to turn of interrupts in there
+  //avoid repeated calls to millis() since interrupts are disabled there
   ms = millis();
   //t = how far we are into current period, in milliseconds
   t = ms - last_period_start;
-
-  if (Thermocouple::update_all(t))
-  { //only re-run PID loops if there is a new temp. reading
-    if (!estop)
+  switch (state)
+  {
+  case STATE_CONVERT_INTERNAL:
+    if (adc_is_conversion_ready())
     {
-      temp_A = tc_A.get_temp();
-      temp_B = tc_B.get_temp();
-      pid_A.run();
-      pid_B.run();
+      internal_temp = adc_to_internal_temp(adc_read_conversion());
+      state = STATE_CONVERT_TC_A;
+      adc_select_channel(ADC_CHANNEL_TC_A);
+      adc_start_conversion();
     }
+    break;
+  case STATE_CONVERT_TC_A:
+
+    if (adc_is_conversion_ready())
+    {
+      temp_A = adc_to_thermocouple_temp(adc_read_conversion(), internal_temp);
+      state = STATE_CONVERT_TC_B;
+      adc_select_channel(ADC_CHANNEL_TC_B);
+      adc_start_conversion();
+    }
+    break;
+  case STATE_CONVERT_TC_B:
+    if (adc_is_conversion_ready())
+    {
+      temp_B = adc_to_thermocouple_temp(adc_read_conversion(), internal_temp);
+      //recalculate PID outputs after getting new temp. readings from both sensors
+      if (!estop)
+      {
+        pid_A.run();
+        pid_B.run();
+      }
+      state = STATE_ADC_IDLE;
+    }
+    break;
+  case STATE_ADC_IDLE:
+    if (t >= LOOP_PERIOD)
+    {
+      state = STATE_CONVERT_INTERNAL;
+      adc_select_channel(ADC_CHANNEL_INTERNAL_TEMP);
+      adc_start_conversion();
+    }
+    break;
   }
 
   if (estop)
   {
-    Heater::shutdown_all();
+    ht_A.shutdown();
+    ht_B.shutdown();
   }
   else
   {
@@ -117,7 +138,8 @@ void loop()
     ht_B.set_duty(duty_B);
   }
 
-  Heater::update_all(t);
+  ht_A.update(t);
+  ht_B.update(t);
 
   leds.update(t);
 
@@ -142,26 +164,30 @@ void loop()
     estop = 1; //stop heaters on comms lost
   }
 
-  //blink LED fast for errors
-  if (errchk())
-  {
-    estop = 1;
-    leds.err_blink(ERRBLINK_MODE_FAST);
-  }
-  //blink LED slow if connection lost
-  else if (!comms_ok)
-  {
-    leds.err_blink(ERRBLINK_MODE_SLOW);
-  }
-  else
-  {
-    leds.err_blink(ERRBLINK_MODE_OFF);
-  }
-
   if (t >= LOOP_PERIOD)
   {
-    //serial_tx(); //transmit status 1Hz
-    //error_tx();
+    if (!digitalRead(MANUAL_SW))
+    {
+      reboot();
+    }
+    error = errchk();
+    serial_tx(); //transmit status 1Hz
+    error_tx();
+    //blink LED fast for errors
+    if (error)
+    {
+      estop = 1;
+      leds.err_blink(ERRBLINK_MODE_FAST);
+    }
+    //blink LED slow if connection lost
+    else if (!comms_ok)
+    {
+      leds.err_blink(ERRBLINK_MODE_SLOW);
+    }
+    else
+    {
+      leds.err_blink(ERRBLINK_MODE_OFF);
+    }
     last_period_start = ms; //restart the period
   }
 }
@@ -176,24 +202,19 @@ void serial_tx()
   Serial.print(goal_temp); //setpoint temperature for both heater/thermocouple pairs
   COMMA();
 
-  //thermocouple status and data
-  Serial.print(tc_A.get_temp());
+  //thermocouple temperatures
+  Serial.print(temp_A);
   COMMA();
-  Serial.print(tc_B.get_temp());
+  Serial.print(temp_B);
   COMMA();
-  Serial.print(tc_A.get_internal_temp());
-  COMMA();
-  Serial.print(tc_B.get_internal_temp());
+  //internal temp. of ADC (cold-junction temp)
+  Serial.print(internal_temp);
   COMMA();
 
   //heater status and output levels
   Serial.print(ht_A.get_duty());
   COMMA();
   Serial.print(ht_B.get_duty());
-  COMMA();
-  Serial.print(ht_A.has_power());
-  COMMA();
-  Serial.print(ht_B.has_power());
   COMMA();
 
   //current PID gains
@@ -207,14 +228,7 @@ void serial_tx()
 
 bool errchk()
 {
-  if (tc_A.get_errcode() || tc_B.get_errcode() || !ht_A.has_power() || !ht_B.has_power())
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return adc_get_errcode() || !ht_A.has_power() || !ht_B.has_power();
 }
 
 void error_tx()
@@ -222,9 +236,7 @@ void error_tx()
   if (errchk())
   {
     Serial.print("<ERR,");
-    Serial.print(tc_A.get_errcode(), HEX);
-    COMMA();
-    Serial.print(tc_B.get_errcode(), HEX);
+    Serial.print(adc_get_errcode(), HEX);
     COMMA();
     if (!ht_A.has_power())
     {
