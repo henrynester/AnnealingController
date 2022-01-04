@@ -2,58 +2,26 @@
 #include <Arduino.h>
 #include "pins.h"
 
-#define TC_DEBUG //print out raw bytes received from sensor, conversion maths
-#define TC_TEST_POT //use a potentiometer instead
+//Class to interface with ADS1120 over SPI
 
-#define SPI_BITRATE 125000
-#define SPI_SETTINGS SPISettings(SPI_BITRATE, MSBFIRST, SPI_MODE0)
+//#define TC_DEBUG //uncomment to print out raw bytes received from sensor, conversion maths
 
-//Class to interface with MAX31855T over SPI
+void adc_init();
+
+#define ADC_CHANNEL_INTERNAL_TEMP 1
+#define ADC_CHANNEL_TC_A 2
+#define ADC_CHANNEL_TC_B 3
+void adc_select_channel(uint8_t channel);
+void adc_start_conversion();
+bool adc_is_conversion_ready();
+int16_t adc_read_conversion();
+
+float adc_to_internal_temp(int16_t adc);
+float adc_to_thermocouple_temp(int16_t adc, float internal_temp);
 
 //error flags by bit index:
-//(from chip)
-#define TC_ERR_OPEN_CKT 0  //Open circuit
-#define TC_ERR_GND_SHORT 1 //TC short to GND
-#define TC_ERR_VCC_SHORT 2 //TC short to VCC
-//(software-errors)
-#define TC_ERR_RESERVED 3
-
-#define TC_ERR_ALL_ZEROS 4          //packet of all zeros received. indicates SDO line disconnect
-#define TC_ERR_ALL_ONES 5           //packet of all ones received. indicates chip not interpreting CS and SCK correctly
-#define TC_ERR_INTERNAL_TEMP_WILD 6 //out of range internal temp value
-#define TC_ERR_EXTERNAL_TEMP_WILD 7 //out of range external temp value
-
-#define TC_UPDATE_PERIOD 1000 //time interval between starting a thermocouple read cycle
-//time interval between reading thermocouples (conversions occur right after SPI communications stop)
-//so we don't want to disturb the bus talking to the next sensor until that time is up.
-//datasheet specifies 100ms for all conversions to complete
-#define TC_UPDATE_GAP 200
-class Thermocouple
-{
-private:
-    uint8_t cs_pin;
-    float internal_temp;
-    float external_temp_raw;
-    float external_temp;
-    uint8_t errcode;
-    static Thermocouple *instances[2];
-    static uint8_t instance_count, instance_to_update;
-
-public:
-    Thermocouple(uint8_t cs) : cs_pin(cs)
-    {
-        //add a pointer to the newly-constructed Thermocouple object to the instance list
-        instances[instance_count] = this;
-        instance_count++;
-    };
-    void begin();
-    void update();
-    void debug_set_external_temp(float temp); //used for debugging with potentiometers
-    float get_internal_temp();
-    float get_raw_temp();
-    float get_temp();
-    uint8_t get_errcode();
-    // void print();
-
-    static bool update_all(uint16_t ms); //returns true if one was updated
-};
+#define ADC_ERR_BAD_SPI 0x01            //config register write failed OR called
+#define ADC_ERR_INTERNAL_TEMP_WILD 0x02 //out of range internal temp value
+#define ADC_ERR_TEMP_A_WILD 0x04        //A channel is reading unreasonably high or low
+#define ADC_ERR_TEMP_B_WILD 0x08        //B channel
+uint8_t adc_get_errcode();
