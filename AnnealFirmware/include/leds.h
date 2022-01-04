@@ -5,18 +5,7 @@
 #define ERRBLINK_MODE_SLOW 1
 #define ERRBLINK_MODE_FAST 2
 
-class StatusLights
-{
-private:
-    uint8_t comm, err;
-    uint8_t in_commblink;
-    uint8_t errblink_mode;
-    uint32_t commblink_start;
-
-public:
-    StatusLights(uint8_t comm, uint8_t err) : comm(comm), err(err){};
-    void begin();
-    void update(uint32_t ms);
-    void rx_msg_blink();
-    void err_blink(uint8_t errblink_mode);
-};
+void leds_begin();
+void leds_update(uint32_t ms);
+void leds_rx_msg_blink();
+void leds_set_errblink_mode(uint8_t mode);

@@ -1,34 +1,39 @@
 #include "leds.h"
 #include "pins.h"
 
-void StatusLights::begin()
+uint8_t in_commblink;
+uint8_t errblink_mode;
+uint32_t commblink_start;
+
+void leds_begin()
 {
     //set LED pins as outputs
-    pinMode(comm, OUTPUT);
-    pinMode(err, OUTPUT);
+    pinMode(COMM, OUTPUT);
+    pinMode(ERR, OUTPUT);
     //sexy startup blink to show the MCU works
     for (uint8_t i = 0; i < 10; i++)
     {
-        digitalWrite(err, LOW);
-        digitalWrite(comm, HIGH);
+        digitalWrite(ERR, LOW);
+        digitalWrite(COMM, HIGH);
         delay(50);
-        digitalWrite(comm, LOW);
-        digitalWrite(err, HIGH);
+        digitalWrite(COMM, LOW);
+        digitalWrite(ERR, HIGH);
         delay(50);
     }
 }
-void StatusLights::update(uint32_t ms)
+
+void leds_update(uint32_t ms)
 {
     //brief flash of COMM LED on each message received over the UART
     if (in_commblink)
     {
         in_commblink = 0;
         commblink_start = ms;
-        digitalWrite(comm, HIGH);
+        digitalWrite(COMM, HIGH);
     }
     if (ms - commblink_start > 50)
     {
-        digitalWrite(comm, LOW);
+        digitalWrite(COMM, LOW);
     }
 
     //error LED is off normally
@@ -47,13 +52,13 @@ void StatusLights::update(uint32_t ms)
         state = (ms % 200) < 100;
         break;
     }
-    digitalWrite(err, state);
+    digitalWrite(ERR, state);
 }
-void StatusLights::rx_msg_blink()
+void leds_rx_msg_blink()
 {
     in_commblink = 1;
 }
-void StatusLights::err_blink(uint8_t errblink_mode)
+void leds_set_errblink_mode(uint8_t mode)
 {
-    this->errblink_mode = errblink_mode;
+    errblink_mode = mode;
 }
