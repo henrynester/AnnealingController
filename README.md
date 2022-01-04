@@ -16,8 +16,6 @@ Hardware is divided between two boxes: the annealing control box, which does mos
 
 AnnealingController is the main unit: an Arduino UNO-compatible shield that switches two MOSFETs to control the heating elements. The heater circuit includes fuses and fault checking on each heater. This board also has transistor drivers for the front-panel LEDs, a connector for an I2C LCD and input keys, and the ThermocoupleAmp board.
 
-![blah](shield sch.png)
-
 ThermocoupleAmp R2 has an ADS1120, a dual differential ADC with internal amplifier and SPI interface. Each thermocouple is biased to 2.5V (mid-supply) with megaohm resistors - do not try to ground the thermocouple leads. Each thermocouple input has a differential single-order low-pass breaking at 1.6kHz and two common-mode single-order low-passes breaking at 16kHz. The filters also provide some isolation protection in the form of a 1k series resistance. Together with the decent input protection of the ADS1120 (tolerant of 4kV static, DC exceeding rails by 0.3V), we should be good as long as you don't short the thermocouple to AC or something like that. The connectors are designed for T-type thermocouples. I use the internal temperature sensor of the ADC to do cold-junction compensation.
 
 The old ThermocoupleAmp R1 used MAX31855T amplifier/digitizer ICs. The MAX31855T is f***** cursed - avoid it.
