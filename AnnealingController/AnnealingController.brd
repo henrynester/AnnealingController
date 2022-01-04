@@ -2027,7 +2027,7 @@ CONN_04
 <attribute name="POPULARITY" value="6" x="30.48" y="26.67" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="40.132" y="29.21" size="1.27" layer="27" ratio="10" rot="R270"/>
 </element>
-<element name="Q1" library="SamacSys_Parts" package="TO254P470X1016X2019-3P" value="RFP30N06LE" x="5.08" y="3.81" smashed="yes" rot="R90">
+<element name="Q1" library="SamacSys_Parts" package="TO254P470X1016X2019-3P" value="IRLB8721PBF" x="5.08" y="3.81" smashed="yes" rot="R90">
 <attribute name="ARROW_PART_NUMBER" value="" x="5.08" y="3.81" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="ARROW_PRICE-STOCK" value="" x="5.08" y="3.81" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="DESCRIPTION" value="MOSFET TO-220AB N-Ch Power" x="5.08" y="3.81" size="1.778" layer="27" rot="R90" display="off"/>
@@ -2063,7 +2063,7 @@ CONN_04
 <attribute name="NAME" x="24.567" y="35.903" size="1.27" layer="25" rot="R180" align="center"/>
 <attribute name="VALUE" x="24.567" y="35.903" size="1.27" layer="27" rot="R180" align="center"/>
 </element>
-<element name="Q2" library="SamacSys_Parts" package="TO254P470X1016X2019-3P" value="RFP30N06LE" x="5.08" y="16.51" smashed="yes" rot="R90">
+<element name="Q2" library="SamacSys_Parts" package="TO254P470X1016X2019-3P" value="IRLB8721PBF" x="5.08" y="16.51" smashed="yes" rot="R90">
 <attribute name="ARROW_PART_NUMBER" value="" x="-7.62" y="15.24" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="ARROW_PRICE-STOCK" value="" x="-7.62" y="15.24" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="DESCRIPTION" value="MOSFET TO-220AB N-Ch Power" x="-7.62" y="15.24" size="1.778" layer="27" rot="R90" display="off"/>

@@ -9650,11 +9650,11 @@ CONN_04
 <part name="D2" library="diode" library_urn="urn:adsk.eagle:library:210" deviceset="ZENER-DIODE" device="ZD-7.5" package3d_urn="urn:adsk.eagle:package:43411/1" value="4V7"/>
 <part name="GND7" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND8" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
-<part name="Q1" library="SamacSys_Parts" deviceset="RFP30N06LE" device=""/>
+<part name="Q1" library="SamacSys_Parts" deviceset="RFP30N06LE" device="" value="IRLB8721PBF"/>
 <part name="R15" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100k"/>
 <part name="R16" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="1k"/>
 <part name="J1" library="SamacSys_Parts" deviceset="178.6164.0002" device=""/>
-<part name="Q2" library="SamacSys_Parts" deviceset="RFP30N06LE" device=""/>
+<part name="Q2" library="SamacSys_Parts" deviceset="RFP30N06LE" device="" value="IRLB8721PBF"/>
 <part name="R17" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100k"/>
 <part name="R18" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="1k"/>
 <part name="J2" library="SamacSys_Parts" deviceset="178.6164.0002" device=""/>

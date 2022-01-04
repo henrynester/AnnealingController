@@ -17746,16 +17746,16 @@ part number 2062-2P from STA</description>
 <part name="IC1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="*555" device="N" package3d_urn="urn:adsk.eagle:package:6240651/1" technology="NE"/>
 <part name="D3" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
 <part name="D1" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
-<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100"/>
+<part name="R1" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="5k"/>
 <part name="JP1" library="adafruit" deviceset="PINHD-1X3" device="" value="100k POT"/>
 <part name="C1" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="CPOL-US" device="E2.5-6" package3d_urn="urn:adsk.eagle:package:6240500/1" value="10u"/>
 <part name="C3" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-025X050" package3d_urn="urn:adsk.eagle:package:6240323/1" value="100n"/>
 <part name="C5" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-025X050" package3d_urn="urn:adsk.eagle:package:6240323/1" value="100n"/>
 <part name="R3" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="220"/>
-<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100"/>
+<part name="R5" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="1k"/>
 <part name="D6" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
 <part name="D5" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
-<part name="R7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="10k"/>
+<part name="R7" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="5k"/>
 <part name="R8" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="220"/>
 <part name="P+1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="P+2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
@@ -17770,13 +17770,13 @@ part number 2062-2P from STA</description>
 <part name="IC2" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="*555" device="N" package3d_urn="urn:adsk.eagle:package:6240651/1" technology="NE"/>
 <part name="D4" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
 <part name="D2" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
-<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100"/>
+<part name="R2" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="5k"/>
 <part name="JP2" library="adafruit" deviceset="PINHD-1X3" device="" value="100k POT"/>
 <part name="C2" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="CPOL-US" device="E2.5-6" package3d_urn="urn:adsk.eagle:package:6240500/1" value="10u"/>
 <part name="C4" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-025X050" package3d_urn="urn:adsk.eagle:package:6240323/1" value="100n"/>
 <part name="C6" library="adafruit" library_urn="urn:adsk.eagle:library:420" deviceset="C-US" device="025-025X050" package3d_urn="urn:adsk.eagle:package:6240323/1" value="100n"/>
 <part name="R4" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="220"/>
-<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="100"/>
+<part name="R6" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-US_" device="0207/7" package3d_urn="urn:adsk.eagle:package:23493/2" value="1k"/>
 <part name="D8" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
 <part name="D7" library="adafruit" deviceset="DIODE" device="DO-1N4148"/>
 <part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
