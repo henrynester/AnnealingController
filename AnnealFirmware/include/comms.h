@@ -7,3 +7,5 @@ void serial_tx();
 void error_tx();
 void serial_rx();
 bool parse_rx();
+
+void reboot();

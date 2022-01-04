@@ -17,6 +17,14 @@ char cmd[4] = {0};
 //<PID,1.0,2.2,0.35> try new PID gains
 //<SAV> write PID gains to eeprom
 
+void reboot()
+{
+    //reset the microcontroller
+    wdt_enable(WDTO_15MS); //set watchdog to expire in 15ms and reset the MCU
+    while (1)              //execute NOP until that happens
+        ;
+}
+
 bool parse_rx()
 {
     char *ptr; // this is used by strtok() as an index
@@ -46,10 +54,7 @@ bool parse_rx()
     }
     else if (strcmp(cmd, "RST") == 0)
     {
-        //reset the microcontroller
-        wdt_enable(WDTO_15MS); //set watchdog to expire in 15ms and reset the MCU
-        while (1)              //execute NOP until that happens
-            ;
+        reboot();
         return true; //never reached. avoids warnings.
     }
     else if (strcmp(cmd, "PID") == 0)
