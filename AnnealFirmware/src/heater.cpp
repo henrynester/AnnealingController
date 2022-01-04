@@ -2,17 +2,6 @@
 
 extern const uint16_t LOOP_PERIOD;
 
-uint8_t Heater::instance_count = 0;
-Heater *Heater::instances[2] = {nullptr, nullptr};
-
-// Heater::Heater(uint8_t switch_pin, uint8_t sense_pin)
-// {
-
-//     //initialize locals
-//     this->switch_pin = switch_pin;
-//     this->sense_pin = sense_pin;
-// }
-
 void Heater::begin()
 {
     //switch pin is an output. heater off to start.
@@ -62,20 +51,4 @@ uint8_t Heater::get_duty()
 bool Heater::has_power()
 {
     return powered;
-}
-
-void Heater::update_all(uint16_t ms)
-{
-    for (uint8_t i = 0; i < instance_count; i++)
-    {
-        instances[i]->update(ms);
-    }
-}
-
-void Heater::shutdown_all()
-{
-    for (uint8_t i = 0; i < instance_count; i++)
-    {
-        instances[i]->shutdown();
-    }
 }
