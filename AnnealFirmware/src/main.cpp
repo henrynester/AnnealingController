@@ -154,6 +154,14 @@ void loop()
       comms_ok = 1;
       last_rx = ms;        //restart the timeout
       leds_rx_msg_blink(); //blink the COMM led
+
+      //even if we received a <SET,XXX> message
+      //do not leave emergency stop if the system
+      //encountered an error
+      if (error)
+      {
+        estop = 1;
+      }
     }
   }
 
