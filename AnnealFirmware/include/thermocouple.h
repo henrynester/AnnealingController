@@ -19,6 +19,11 @@ int16_t adc_read_conversion();
 float adc_to_internal_temp(int16_t adc);
 float adc_to_thermocouple_temp(int16_t adc, float internal_temp);
 
+//these bounds are used to indicate errors with the readings
+#define TC_MAX_TEMP 50      //temperatures above this not expected for thermocouples
+#define TC_MIN_TEMP -273    //temperatures below this not expected for thermocouples
+#define INTERNAL_MIN_TEMP 3 //temperatures below this not expected for the ADC
+
 //error flags by bit index:
 #define ADC_ERR_BAD_SPI 0x01            //config register write failed OR called
 #define ADC_ERR_INTERNAL_TEMP_WILD 0x02 //out of range internal temp value

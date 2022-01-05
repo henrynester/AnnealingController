@@ -179,7 +179,7 @@ float adc_to_internal_temp(int16_t adc)
 {
     float temp = (adc >> 2) * 0.03125; //temperature is a left-justified 14-bit value. LSB=0.03125degC
     //we do not account for the possibility of ADC temperatures below 0degC here
-    if (temp < 3 || temp > 35)
+    if (temp < INTERNAL_MIN_TEMP || temp > TC_MAX_TEMP)
     { //35-95degF ADC temperatures are reasonable room temperatures
         adc_errcode |= ADC_ERR_INTERNAL_TEMP_WILD;
         return 0;
@@ -251,7 +251,7 @@ float adc_to_thermocouple_temp(int16_t adc, float internal_temp)
     Serial.println(external_temp);
     Serial.println("End TC calc");
 #endif
-    if (external_temp < -270 || external_temp > 35)
+    if (external_temp < TC_MIN_TEMP || external_temp > TC_MAX_TEMP)
     {
         //just above absolute zero to a hot room temperature is reasonable for the cryogenic apparatus
         if (adc_channel == ADC_CHANNEL_TC_A)
