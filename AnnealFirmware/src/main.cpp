@@ -13,7 +13,7 @@
 //settings
 extern const uint16_t LOOP_PERIOD;
 const uint16_t LOOP_PERIOD = 1000;
-#define COMMS_TIMEOUT 60000
+#define COMMS_TIMEOUT 10000
 
 //global variables
 Heater ht_A(HT_A_SW, HT_A_SNS);
