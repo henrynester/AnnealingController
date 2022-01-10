@@ -22,17 +22,22 @@ The old ThermocoupleAmp R1 used MAX31855T amplifier/digitizer ICs. The MAX31855T
 
 ManualController has dual 555-based adjustable duty pulse generators with a period on the order of one second. The power supply is a 9V wall jack. To get the system to work properly, I had to ditch the 5V regulator and run the 555s on 9V. The RUN SW pads were shorted since the RESET no longer went low enough, and I just used the RUN switch to turn the power supply on and off.
 
+### Replacement parts
+
+The most likely components to fail are the ThermocoupleAmp R2 board and the two MOSFETs on the shield that switch the heaters. Contact me (rhn9bta@virginia.edu) if you need a new ThermocoupleAmp board soldered up. The MOSFETs are easily replaced: snip the leads above the board, desolder the pads to clear the holes, then solder in a new one. The ones on the board right now are `IRLB8721`'s. Any logic-level (gate threshold < 2V) N-channel MOSFET with maximum drain-source voltage well above 24V (or well above whatever you are using for the power supply) and maximum drain current well above 5A will do, really.
+
 ### Front-panel interface
 An emergency stop switch (RUN/E-STOP) on the box cuts power to the heaters manually. The board registers the emergency stop as though both heaters' fuses had blown. This is for the worst-case scenario where the heaters need to
 be shut off to avoid boiling all the liquid helium, but a software failure prevents it.
 
 The MANUAL/CPU switch serves to disconnect the microcontroller system entirely and allow the heaters to be switched from a control box in the operator's room. In case of total software and hardware failure, the annealing
-system will still be able to vary the heat output for each heater individually. The switch disconnects the negative heater terminals from the MOSFETs that the microcontroller switches, and connects the heaters to a different pair
-of MOSFETs instead. These MOSFETs will be run from simple variable-duty pulse generators in the operator's room.
+system will still be able to vary the heat output for each heater individually. In MANUAL mode, the microcontroller tri-states the heater switch signals so that incoming signals from the manual control box can override. 
+
+NOTE: Do NOT switch on the manual control box while the microcontroller in the annealing box is unpowered (the USB cable must be connected to a host device or power adaptor). If you do this, supposing the heater power supply is on, the box's input protection circuit will malfunction and the MOSFETs will receive a switch-on signal just above their 2V threshhold. Operating in the triode region, they'll desolder themselves in seconds and you'll have to find a new set. It's perfectly safe to leave the manual control box connected to the system, and even running, whether the box is in MANUAL or CPU mode.
 
 There are four LEDs on the front panel:
 - COMM (green): flashes upon receiving a valid message over the serial port from the LabView system
-- ERR (red): flashes slowly for a non-critical error (simple loss of serial control, for example), or flashes quickly in case of a critical error with the temperature sensors or heater fuses that could hinder operation
+- ERR (red): flashes slowly for a non-critical error (simple loss of serial control, for example), or flashes quickly in case of a critical error with the temperature sensors or heater fuses that could hinder operation. Blinks periodically in MANUAL mode.
 - HT A (red): lit while heater A is switched on. During annealing, it should flash with a variable duty cycle as the controller attempts to regulate the temperature
 - HT B (red)
 
