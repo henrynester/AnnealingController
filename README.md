@@ -36,10 +36,10 @@ system will still be able to vary the heat output for each heater individually. 
 NOTE: Do NOT switch on the manual control box while the microcontroller in the annealing box is unpowered (the USB cable must be connected to a host device or power adaptor). If you do this, supposing the heater power supply is on, the box's input protection circuit will malfunction and the MOSFETs will receive a switch-on signal just above their 2V threshhold. Operating in the triode region, they'll desolder themselves in seconds and you'll have to find a new set. It's perfectly safe to leave the manual control box connected to the system, and even running, whether the box is in MANUAL or CPU mode.
 
 There are four LEDs on the front panel:
-- COMM (green): flashes upon receiving a valid message over the serial port from the LabView system
+- COMM (blue): flashes upon receiving a valid packet over the serial port
 - ERR (red): flashes slowly for a non-critical error (simple loss of serial control, for example), or flashes quickly in case of a critical error with the temperature sensors or heater fuses that could hinder operation. Blinks periodically in MANUAL mode.
-- HT A (red): lit while heater A is switched on. During annealing, it should flash with a variable duty cycle as the controller attempts to regulate the temperature
-- HT B (red)
+- HT A (green): lit while heater A is switched on. During annealing, it should flash with a variable duty cycle as the controller attempts to regulate the temperature. The light continues to work in manual mode - it's a good way to test the wiring to the manual control box without the heater power supply switched on.
+- HT B (green): ditto heater B
 
 ### Setting up the hardware
 The wiring from the heaters should be connected to the appropriate screw terminals on the terminal strip using spade connectors, after passing through the strain relief entry in the rear of the box. Polarity does not matter as
