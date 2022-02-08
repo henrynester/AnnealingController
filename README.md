@@ -11,6 +11,14 @@ in the axis transverse to the incident proton beam.
 From a LabView VI interfacing to the Arduino's serial port, the temperature setpoint can be changed or the heaters can be shut off entirely. The VI also allows real-time monitoring of the temperatures
 in the system and the status of the heater fuses (VI not built yet).
 
+## Specifications
+Serial port speed: 250kbit/s
+Heater power: up to 120W per channel (24V max, 5A max), for a total of up to 240W thermal power output
+Power supply requirements:
+- A/C inlet: 120VAC,60Hz@2.5A with both heaters at maximum power. A fuse will blow if the AC/DC converter draws more than 2.5A.
+- Arduino USB port: 5V@500mA
+- Manual box DC jack: 9V@100mA, center-positive
+
 ## Hardware
 Hardware is divided between two boxes: the annealing control box, which does most of the work, and a manual control box to operate the switches remotely in case of the microcontroller failing.
 
@@ -23,6 +31,8 @@ The old ThermocoupleAmp R1 used MAX31855T amplifier/digitizer ICs. The MAX31855T
 ManualController has dual 555-based adjustable duty pulse generators with a period on the order of one second. The power supply is a 9V wall jack. To get the system to work properly, I had to ditch the 5V regulator and run the 555s on 9V. The RUN SW pads were shorted since the RESET no longer went low enough, and I just used the RUN switch to turn the power supply on and off.
 
 ### Replacement parts
+
+There are four fuses in the device that can blow: a 2.5A 120V glass fuse on the rear panel, a 15A ATC fuse inline with SUPPLY+ inside the box, and two 7.5A ATC fuses within holders on the main board.
 
 The most likely components to fail are the ThermocoupleAmp R2 board and the two MOSFETs on the shield that switch the heaters. Contact me (rhn9bta@virginia.edu) if you need a new ThermocoupleAmp board soldered up. The MOSFETs are easily replaced: snip the leads above the board, desolder the pads to clear the holes, then solder in a new one. The ones on the board right now are `IRLB8721`'s. Any logic-level (gate threshold < 2V) N-channel MOSFET with maximum drain-source voltage well above 24V (or well above whatever you are using for the power supply) and maximum drain current well above 5A will do, really.
 
