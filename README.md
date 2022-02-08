@@ -13,11 +13,13 @@ in the system and the status of the heater fuses (VI not built yet).
 
 ## Specifications
 Serial port speed: 250kbit/s
+
 Heater power: up to 120W per channel (24V max, 5A max), for a total of up to 240W thermal power output
+
 Power supply requirements:
-- A/C inlet: 120VAC,60Hz@2.5A with both heaters at maximum power. A fuse will blow if the AC/DC converter draws more than 2.5A.
-- Arduino USB port: 5V@500mA
-- Manual box DC jack: 9V@100mA, center-positive
+- A/C inlet: 120VAC, 60Hz at 2.5A with both heaters at maximum power. A fuse will blow if the AC/DC converter draws more than 2.5A.
+- Arduino USB port: 5V at 500mA
+- Manual box DC jack: 9V at 100mA, center-positive
 
 ## Hardware
 Hardware is divided between two boxes: the annealing control box, which does most of the work, and a manual control box to operate the switches remotely in case of the microcontroller failing.
